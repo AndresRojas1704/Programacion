@@ -10,7 +10,7 @@ public class ListSE {
 
     private int size;
 
-
+//Agregar niño
     public void add(Kid kid) throws ListSEException {
         if(head != null){
             Node temp = head;
@@ -34,7 +34,7 @@ public class ListSE {
         size ++;
     }
 
-
+//Metodo para agregar al inicio
     public void addToStart(Kid kid){
         if(head !=null)
         {
@@ -163,7 +163,7 @@ public class ListSE {
     }
 
 
-
+//Metodo obtener location por codigo del pais
 public int getCountKidsByLocationCode(String code){
         int count = 0;
         if(this.head!=null){
@@ -178,6 +178,7 @@ public int getCountKidsByLocationCode(String code){
         return count;
 }
 
+//Metodo obtener location por codigo del departamento
     public int getDepartmentsByLocationCode(String code){
         int count = 0;
         if(this.head!=null){
@@ -191,7 +192,7 @@ public int getCountKidsByLocationCode(String code){
         }
         return count;
     }
-
+//Metodo para invertir lista
 public void invert(){
         if(this.head !=null){
             ListSE listCp = new ListSE();
@@ -203,7 +204,7 @@ public void invert(){
                 this.head = listCp.getHead();
         }
 }
-
+//Metodo para cambiar extremos
 public void changeExtremes(){
         if(this.head !=null && this.head.getNext() !=null){
             Node temp = this.head;
@@ -248,29 +249,23 @@ public void getReportKidsByLocationGendersByAge(byte age, ReportKidsLocationGend
         }
     }
 }
-public int getLength(){
-        int count = 0;
-        Node current = head;
-        while(current !=null){
-            count++;
-            current = current.getNext();
+//Metodo para obtener el promedio de edad de los niños de la lista
+
+public float PromAgesKids(){
+        int sumAges = 0;
+        int count= 0;
+        if(head !=null){
+            Node temp = head;
+            while (temp!=null){
+                sumAges += temp.getData().getAge();
+                count++;
+                temp=temp.getNext();
+            }
+            return sumAges/(float) count;
         }
-        return  count;
+        return 0;
 }
-public double getAverageAge() throws ListSEException {
-    double averageAge = 0;
-    Node temp = this.head;
-    if (this.head != null) {
-        while (temp != null) {
-            averageAge = averageAge + temp.getData().getAge();
-            temp = temp.getNext();
-        }
-        averageAge = averageAge / getLength();
-        return averageAge;
-    } else {
-        throw new ListSEException("la lista está vacia");
-    }
-}
+//Metodo para generar un reporte que me diga cuantos niños hay de cada ciudad
 public int getCountKidByLocationCode(String code) throws ListSEException {
     if (code == null || code.isEmpty()) {
         throw new ListSEException("El codigo de la ubicacion no puede ser nulo o vacio");
@@ -290,4 +285,20 @@ public int getCountKidByLocationCode(String code) throws ListSEException {
     }
     return count;
 }
+//metodo para enviar al final de la lista a los niños que su nombre inicie con una letra dada
+public void orderByFirstLetter(String letter) throws ListSEException{
+        ListSE listSE = new ListSE();
+        if(head !=null){
+            Node temp = head;
+            while (temp.getData()!=null){
+                if (temp.getData().getName().startsWith(letter)) {
+                    listSE.add(temp.getData());
+
+                }else {
+                    listSE.addToStart(temp.getData());
+                }
+            }
+        }
+}
+
 }
