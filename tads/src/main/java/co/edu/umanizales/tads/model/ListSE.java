@@ -248,18 +248,46 @@ public void getReportKidsByLocationGendersByAge(byte age, ReportKidsLocationGend
         }
     }
 }
-
-public double PromAge() {
-        if(head == null){
-            return 0;
+public int getLength(){
+        int count = 0;
+        Node current = head;
+        while(current !=null){
+            count++;
+            current = current.getNext();
         }
-            Node temp = head;
-            int sumAges = 0;
-            while(temp!=null){
-                sumAges += temp.getData().getAge();
-                temp = temp.getNext();
-            }
-            return(double) sumAges / size;
+        return  count;
+}
+public double getAverageAge() throws ListSEException {
+    double averageAge = 0;
+    Node temp = this.head;
+    if (this.head != null) {
+        while (temp != null) {
+            averageAge = averageAge + temp.getData().getAge();
+            temp = temp.getNext();
+        }
+        averageAge = averageAge / getLength();
+        return averageAge;
+    } else {
+        throw new ListSEException("la lista está vacia");
     }
+}
+public int getCountKidByLocationCode(String code) throws ListSEException {
+    if (code == null || code.isEmpty()) {
+        throw new ListSEException("El codigo de la ubicacion no puede ser nulo o vacio");
 
+    }
+    int count = 0;
+    if (this.head != null) {
+        Node temp = this.head;
+        while (temp != null) {
+            if (temp.getData().getLocation().getCode().equals(code)) {
+                count++;
+            }
+            temp = temp.getNext();
+        }
+    } else {
+        return 0;
+    }
+    return count;
+}
 }
