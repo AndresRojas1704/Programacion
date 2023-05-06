@@ -1,5 +1,7 @@
 package co.edu.umanizales.tads.service;
 
+import co.edu.umanizales.tads.exception.ListSEException;
+import co.edu.umanizales.tads.model.Kid;
 import co.edu.umanizales.tads.model.ListSE;
 import co.edu.umanizales.tads.model.Node;
 import lombok.Data;
@@ -19,4 +21,37 @@ public void invert(){
 
         kids.invert();
     }
+
+    public void addToStart(Kid kid){
+        kids.addToStart(kid);
+    }
+
+    public void getIntercalateKids() throws ListSEException {
+        kids.getIntercalateKids();
+    }
+
+    public void removeKidsByAge(int age){
+        kids.removeKidsByAge(age);
+    }
+
+    public void PromAgesKids(){
+        kids.PromAgesKids();
+    }
+
+    public void getCountKidByLocationCode(String code) throws ListSEException {
+        kids.getCountKidByLocationCode(code);
+    }
+    public void gainPosition(String id, int gain) throws ListSEException {
+        kids.gainPosition(id, gain);
+    }
+    public void losePosition(String id, int lose) throws ListSEException {
+        kids.losePosition(id, lose);
+}
+    public void reportKidsByAge(int ageMinima, int ageMaxima) throws ListSEException {
+        kids.reportKidByAge(ageMinima, ageMaxima);
+    }
+    public void orderByFirstLetter(String letter) throws ListSEException {
+        kids.orderByFirstLetter(letter);
+    }
+
 }

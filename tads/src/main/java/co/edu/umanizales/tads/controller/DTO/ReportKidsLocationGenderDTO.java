@@ -1,10 +1,11 @@
 package co.edu.umanizales.tads.controller.DTO;
 
 import co.edu.umanizales.tads.model.Location;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
 public class ReportKidsLocationGenderDTO {
     private List<LocationGenderQuantityDTO> locationGenderQuantityDTOS;
 
