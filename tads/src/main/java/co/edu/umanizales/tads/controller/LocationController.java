@@ -31,4 +31,5 @@ public class LocationController {
     public ResponseEntity<ResponseDTO>getDepartments(){
         return new ResponseEntity<ResponseDTO>(new ResponseDTO(200,locationService.getLocationsByCodeSize(5), null),HttpStatus.OK);
     }
+
 }

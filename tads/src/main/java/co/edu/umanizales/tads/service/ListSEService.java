@@ -16,12 +16,16 @@ public class ListSEService {
         kids = new ListSE();
     }
 
-
-public void invert(){
+    public void orderByGender() {
+        kids.OrdenByGender();
+    }
+    public void invert(){
 
         kids.invert();
     }
-
+public void orderBoysToStart() throws ListSEException {
+        kids.orderBoysToStart();
+}
     public void addToStart(Kid kid){
         kids.addToStart(kid);
     }
@@ -41,7 +45,7 @@ public void invert(){
     public void getCountKidByLocationCode(String code) throws ListSEException {
         kids.getCountKidByLocationCode(code);
     }
-    public void gainPosition(String id, int gain) throws ListSEException {
+    public  void gainPosition(String id, int gain) throws ListSEException {
         kids.gainPosition(id, gain);
     }
     public void losePosition(String id, int lose) throws ListSEException {

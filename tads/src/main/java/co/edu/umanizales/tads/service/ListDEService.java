@@ -16,6 +16,10 @@ public class ListDEService {
         pets = new ListDE();
     }
 
+
+    public void orderByGender() {
+        pets.OrdenByGender();
+    }
     public void invert(){
         pets.invert();
     }

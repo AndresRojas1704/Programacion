@@ -1,6 +1,6 @@
 package co.edu.umanizales.tads.model;
 
-import co.edu.umanizales.tads.controller.DTO.ReportKidsLocationGenderDTO;
+import co.edu.umanizales.tads.controller.DTO.ReportPetsLocationGenderDTO;
 import co.edu.umanizales.tads.exception.ListDEException;
 import lombok.Data;
 
@@ -325,7 +325,7 @@ private int size;
             }
         }
     }
-
+//metodo para contar pets por la location code
     public int getCountPetsByLocationCode(String code) {
         int count = 0;
         if (this.head != null) {
@@ -339,7 +339,7 @@ private int size;
         }
         return count;
     }
-
+//metodo para obtener la location por departamento
     public int getPetsDepartmentsByLocationCode(String code) {
         int count = 0;
         if (this.head != null) {
@@ -353,8 +353,8 @@ private int size;
         }
         return count;
     }
-
-    public void getReportPetsByLocationGendersByAge(byte age, ReportKidsLocationGenderDTO report) {
+//metodo para obtener un reporte de pets por location genero x age
+    public void getReportPetsByLocationGendersByAge(byte age, ReportPetsLocationGenderDTO report) {
         if (head != null) {
             NodeDE temp = this.head;
             while (temp != null) {

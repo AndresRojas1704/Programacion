@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import static co.edu.umanizales.tads.service.ListSEService.*;
 
 @RestController
 @RequestMapping(path = "/listse")
@@ -54,10 +58,45 @@ public class ListSEController {
         }
         return new ResponseEntity<>(new ResponseDTO(200,"Se ha adicionado el petacon",null),HttpStatus.OK
         );
-
-
-
     }
+
+    @GetMapping(path = "/removekid/{id}")
+    public ResponseEntity<ResponseDTO>removekidbyage(byte age) {
+        listSEService.removeKidsByAge(age);
+        return new ResponseEntity<>(new ResponseDTO(200,"Niño eliminado",null),HttpStatus.OK);
+    }
+@GetMapping(path = "/removekidbyage/{age}")
+public ResponseEntity<ResponseDTO>losePosition(@PathVariable byte age){
+        listSEService.removeKidsByAge(age);
+        return new ResponseEntity<>(new ResponseDTO(200, "Los niños con esa edad se eliminaron",null),HttpStatus.OK);
+}
+@GetMapping (path = "/orderbygender")
+    public ResponseEntity<ResponseDTO> orderbygender() throws ListSEException {
+        listSEService.orderByGender();
+        return new ResponseEntity<>(new ResponseDTO(200,"niños ordenados",null), HttpStatus.OK);
+    }
+
+    @GetMapping(path= "/kidtostart")
+    public ResponseEntity<ResponseDTO> orderboystostart() throws ListSEException {
+        listSEService.orderBoysToStart();
+        return new ResponseEntity<>(new ResponseDTO(200, "Los niños al inicio y las niñas al final",null),HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/gainposition")
+    public ResponseEntity<ResponseDTO> gainposition(@RequestBody Map<String, Object> requestBody) throws ListSEException{
+        String id =(String) requestBody.get("id");
+        Integer gain = (Integer) requestBody.get("gain");
+        listSEService.gainPosition(id,gain);
+        return new ResponseEntity<>(new ResponseDTO(200,"Las posiciones se reordenaron",null),HttpStatus.OK);
+    }
+    @PostMapping(path = "/loseposition")
+    public ResponseEntity<ResponseDTO> loseposition(@RequestBody Map<String, Object> requestBody) throws ListSEException{
+        String id =(String) requestBody.get("id");
+        Integer gain = (Integer) requestBody.get("lose");
+        listSEService.losePosition(id,gain);
+        return new ResponseEntity<>(new ResponseDTO(200,"Las posiciones se reordenaron",null),HttpStatus.OK);
+    }
+
 
     @GetMapping(path = "/kidsbylocations")
     public ResponseEntity<ResponseDTO> getKidsByLocation() {

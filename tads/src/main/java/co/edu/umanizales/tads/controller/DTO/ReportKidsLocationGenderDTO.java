@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 @Data
 public class ReportKidsLocationGenderDTO {
-    private List<LocationGenderQuantityDTO> locationGenderQuantityDTOS;
+    private List<LocationGenderQuantityDTO> locationGenderQuantityDTOSS;
 
     public ReportKidsLocationGenderDTO(List<Location> cities) {
-        locationGenderQuantityDTOS = new ArrayList<>();
+        locationGenderQuantityDTOSS = new ArrayList<>();
         for(Location location: cities) {
-            locationGenderQuantityDTOS.add(new LocationGenderQuantityDTO(location.getName()));
+            locationGenderQuantityDTOSS.add(new LocationGenderQuantityDTO(location.getName()));
         }
     } // metodo actualizar
 
 
     public void updateQuantity(String city, char gender) {
-        for(LocationGenderQuantityDTO loc:locationGenderQuantityDTOS) {
+        for(LocationGenderQuantityDTO loc:locationGenderQuantityDTOSS) {
             if(loc.getCity().equals(city)){
                 for(GenderQuantityDTO genderDTO: loc.getGenders()){
                     if(genderDTO.getGender()==gender){
