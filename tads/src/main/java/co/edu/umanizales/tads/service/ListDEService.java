@@ -52,4 +52,7 @@ public class ListDEService {
     public void orderByFirstLetter(String letter) throws ListDEException {
         pets.orderByFirstLetter(letter);
     }
+    public void removeKamicase(String id){
+    pets.removeKamicase(id);
+    }
 }

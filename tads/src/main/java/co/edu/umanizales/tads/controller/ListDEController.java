@@ -117,5 +117,10 @@ public class ListDEController {
         listDEService.getPets().getReportPetsByLocationGendersByAge(age,report);
         return new ResponseEntity<>(new ResponseDTO(200,report,null),HttpStatus.OK);
     }
+    @GetMapping(path = "/removeKamicase/{id}")
+    public ResponseEntity<ResponseDTO> removeKamicase(String id) {
+        listDEService.removeKamicase(id);
+        return new ResponseEntity<>(new ResponseDTO(200,"Se ha eliminado el pet",null),HttpStatus.OK);
+    }
 
 }

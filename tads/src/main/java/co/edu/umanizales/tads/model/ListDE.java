@@ -366,4 +366,38 @@ private int size;
         }
     }
 
+    /*
+    metodo para remover x id
+    1. recorremos la lista
+    3. creamos un temporal
+    2. llamamos a un temporal para que nos ayude a recorrer cada integrante de la lista
+    3. entonces el temporal debe pararse en el que va a agarrar y con un set.previous que agarre el de atras y un get.next.get.next para que no tenga de donde agarrarse
+    5. ahi ya estaria eliminando a lo que tenga, ya que el objeto en la lista tendria que agarrar el previo y los 2 siguientes pero el se eliminaria ya q no podria agarrarse del siguiente.
+    6. para saber si el niño no esta en el ultimo tendremos que decir si temp. siguiente es igual igual a null entre y temp agarre el previous en y despues de estar en el previous coloqueme en el siguiente y despues la cabeza va a a ser el siguiente
+     sino el temp agarre el previous y coloquemelo en el siguiente dentro de este llame al temp . siguiente y despues temp obtenga el siguiente, y despues de estar coloqueme en el anterior y dentro de este llamo al temp . obtenga el anterior
+    7. entonces asi ya si el niño esta en el ultimo este se eliminaria
+
+     */
+
+    public void removeKamicase(String id) {
+        if (head != null) {
+            NodeDE temp = head;
+            if (head.getData().getIdentification().equals(id)) {
+                temp.getNext().setPrevious(null);
+                head = head.getNext();
+            } else {
+                while (!temp.getData().getIdentification().equals(id)) {
+                    temp = temp.getNext();
+                } if(temp.getNext() == null){
+                    temp.getPrevious().setNext(null);
+                    head = head.getNext();
+                }else {
+                    temp.getPrevious().setNext(temp.getNext());
+                    temp.getNext().setPrevious(temp.getPrevious());
+                }
+            }
+        }
+        size--;
+    }
+
 }
