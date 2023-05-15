@@ -44,20 +44,6 @@ public class ListSE {
         size++;
     }
 
-    // Metodo remover por id
-    public void removeById(String id) {
-        if (head != null) {
-            Node temp = head;
-            if (head.getData().getIdentification().equals(id)) {
-                head = head.getNext();
-            } else {
-                while (!temp.getNext().getData().getIdentification().equals(id)) {
-                    temp = temp.getNext();
-                }
-                temp.setNext(temp.getNext().getNext());
-            }
-        }
-    }
 
     // Metodo Add niño por posicion
     public void addKidXPos(Kid kid, int pos) {
@@ -220,7 +206,7 @@ public class ListSE {
     }
 
     // metodo dada una edad eliminar a los niños de la edad dada
-    public void removeKidsByAge(int age) {
+    public void removeKidsByAge(byte age) {
         if (head != null) {
             Node temp = head;
             while (temp != null) {

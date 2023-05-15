@@ -34,7 +34,7 @@ public void orderBoysToStart() throws ListSEException {
         kids.getIntercalateKids();
     }
 
-    public void removeKidsByAge(int age){
+    public void removeKidsByAge(byte age){
         kids.removeKidsByAge(age);
     }
 

@@ -31,7 +31,7 @@ public class ListSEController {
         return new ResponseEntity<>(new ResponseDTO(200, listSEService.getKids(), null), HttpStatus.OK);
     }
 
-    @GetMapping("/invert")
+    @GetMapping(path =  "/invert")
     public ResponseEntity<ResponseDTO> invert() {
         listSEService.invert();
         return new ResponseEntity<>(new ResponseDTO(200, "Se ha invertido la lista", null), HttpStatus.OK);
@@ -60,16 +60,12 @@ public class ListSEController {
         );
     }
 
-    @GetMapping(path = "/removekid/{id}")
+    @GetMapping(path = "/removekidbyage/{age}")
     public ResponseEntity<ResponseDTO>removekidbyage(byte age) {
         listSEService.removeKidsByAge(age);
         return new ResponseEntity<>(new ResponseDTO(200,"Niño eliminado",null),HttpStatus.OK);
     }
-@GetMapping(path = "/removekidbyage/{age}")
-public ResponseEntity<ResponseDTO>losePosition(@PathVariable byte age){
-        listSEService.removeKidsByAge(age);
-        return new ResponseEntity<>(new ResponseDTO(200, "Los niños con esa edad se eliminaron",null),HttpStatus.OK);
-}
+
 @GetMapping (path = "/orderbygender")
     public ResponseEntity<ResponseDTO> orderbygender() throws ListSEException {
         listSEService.orderByGender();
