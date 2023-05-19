@@ -206,14 +206,18 @@ public class ListSE {
     }
 
     // metodo dada una edad eliminar a los niños de la edad dada
-    public void removeKidsByAge(byte age) {
+    public void removeKidByAge(int age) {
         if (head != null) {
             Node temp = head;
-            while (temp != null) {
-                if (temp.getData().getAge() == age) {
+            if (head.getData().getAge() == age) {
+                head = head.getNext();
+            } else {
+                while (temp.getNext() != null) {
+                    while (temp.getNext().getData().getAge() != age) {
+                        temp = temp.getNext();
+                    }
                     temp.setNext(temp.getNext().getNext());
                 }
-                temp = temp.getNext();
             }
         }
     }
@@ -258,43 +262,49 @@ public class ListSE {
     //Metodo para ganar posiciones
     public void gainPosition(String id, int gain) throws ListSEException {
         Node temp = head;
-        gain = 0;
-        int sum = 0;
         ListSE listSECp = new ListSE();
+        int sum= 0;
         if (head != null) {
             while (temp != null) {
                 if (!temp.getData().getIdentification().equals(id)) {
                     listSECp.add(temp.getData());
-                    temp.getNext();
+                    temp = temp.getNext();
                 } else {
                     temp = temp.getNext();
                 }
             }
+            if(gain!=1) {
+                sum = gain - getPostbyId(id);
+                listSECp.addKidXPos(getKidById(id), sum);
+
+            }else {
+                listSECp.addToStart(getKidById(id));
+
+            }
+            this.head = listSECp.getHead();
         }
-        sum = getPostbyId(id) - gain;
-        listSECp.addKidXPos(getKidById(id), sum);
-        this.head = listSECp.getHead();
+
     }
 
     //metodo para perder posiciones
     public void losePosition(String id, int lose) throws ListSEException {
-        Node temp = head;
-        lose = 0;
-        int sum = 0;
+        Node temp = this.head;
+        int sum= 0;
         ListSE listSECp = new ListSE();
-        if (head != null) {
-            while (temp != null) {
-                if (!temp.getData().getIdentification().equals(id)) {
-                    listSECp.add(temp.getData());
-                    temp.getNext();
-                } else {
-                    temp = temp.getNext();
-                }
+        if(head != null);
+        while(temp!= null){
+            if(!temp.getData().getIdentification().equals(id)){
+                listSECp.add(temp.getData());
+                temp= temp.getNext();
+            }else {
+                temp = temp.getNext();
             }
+
         }
-        sum = getPostbyId(id) + lose;
-        listSECp.addKidXPos(getKidById(id), sum);
+        sum = lose + getPostbyId(id);
+        listSECp.addKidXPos(getKidById(id),sum);
         this.head = listSECp.getHead();
+
     }
 
     //Metodo para obtener un reporte de los niños x edad
@@ -310,18 +320,20 @@ public class ListSE {
         }
     }
     //metodo para enviar al final de la lista a los niños que su nombre inicie con una letra dada
-    public void orderByFirstLetter(String letter) throws ListSEException {
-        ListSE listSE = new ListSE();
+    public void addByNameAtEnd(String initial) throws ListSEException {
+        ListSE newListSE = new ListSE();
         if (head != null) {
             Node temp = head;
-            while (temp.getData() != null) {
-                if (temp.getData().getName().startsWith(letter)) {
-                    listSE.add(temp.getData());
+            while (temp != null) {
+                if (temp.getData().getName().startsWith(initial)) {
+                    newListSE.add(temp.getData());
 
                 } else {
-                    listSE.addToStart(temp.getData());
+                    newListSE.addToStart(temp.getData());
                 }
+                temp = temp.getNext();
             }
+            head = newListSE.head;
         }
     }
 

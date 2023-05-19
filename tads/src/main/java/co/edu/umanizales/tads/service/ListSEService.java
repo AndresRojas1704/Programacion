@@ -33,11 +33,6 @@ public void orderBoysToStart() throws ListSEException {
     public void getIntercalateKids() throws ListSEException {
         kids.getIntercalateKids();
     }
-
-    public void removeKidsByAge(byte age){
-        kids.removeKidsByAge(age);
-    }
-
     public void PromAgesKids(){
         kids.PromAgesKids();
     }
@@ -54,8 +49,8 @@ public void orderBoysToStart() throws ListSEException {
     public void reportKidsByAge(int ageMinima, int ageMaxima) throws ListSEException {
         kids.reportKidByAge(ageMinima, ageMaxima);
     }
-    public void orderByFirstLetter(String letter) throws ListSEException {
-        kids.orderByFirstLetter(letter);
+    public void addByNameAtEnd(String initial) throws ListSEException {
+        kids.addByNameAtEnd(initial);
     }
 
 }

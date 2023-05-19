@@ -43,7 +43,11 @@ public class ListSEController {
         listSEService.getKids().changeExtremes();
         return new ResponseEntity<>(new ResponseDTO(200, "SE han intercambiado los extremos", null), HttpStatus.OK);
     }
-
+@GetMapping(path ="/intercalatekids")
+public ResponseEntity<ResponseDTO>IntercalateKids() throws ListSEException {
+        listSEService.getIntercalateKids();
+        return new ResponseEntity<>(new ResponseDTO(200,"Se ha intercalado los niños", null),HttpStatus.OK);
+}
     @PostMapping
     public ResponseEntity<ResponseDTO> addKid(@RequestBody KidDTO kidDTO) {
         Location location = locationService.getLocationByCode(kidDTO.getCodeLocation());
@@ -56,13 +60,12 @@ public class ListSEController {
         } catch (ListSEException e){
             return new ResponseEntity<>(new ResponseDTO(409,e.getMessage(),null),HttpStatus.OK);
         }
-        return new ResponseEntity<>(new ResponseDTO(200,"Se ha adicionado el petacon",null),HttpStatus.OK
-        );
+        return new ResponseEntity<>(new ResponseDTO(200,"Se ha adicionado el petacon",null),HttpStatus.OK);
     }
 
     @GetMapping(path = "/removekidbyage/{age}")
-    public ResponseEntity<ResponseDTO>removekidbyage(byte age) {
-        listSEService.removeKidsByAge(age);
+    public ResponseEntity<ResponseDTO>removeKidByAge(int age) {
+        listSEService.getKids().removeKidByAge(age);
         return new ResponseEntity<>(new ResponseDTO(200,"Niño eliminado",null),HttpStatus.OK);
     }
 
@@ -77,22 +80,53 @@ public class ListSEController {
         listSEService.orderBoysToStart();
         return new ResponseEntity<>(new ResponseDTO(200, "Los niños al inicio y las niñas al final",null),HttpStatus.OK);
     }
+    @GetMapping(path="/promageskids")
+    public ResponseEntity<ResponseDTO> promAgesKids(){
+        listSEService.PromAgesKids();
+        return new ResponseEntity<>(new ResponseDTO(200, "El promedio de los niños", null),HttpStatus.OK);
+    }
 
     @PostMapping(path = "/gainposition")
     public ResponseEntity<ResponseDTO> gainposition(@RequestBody Map<String, Object> requestBody) throws ListSEException{
         String id =(String) requestBody.get("id");
         Integer gain = (Integer) requestBody.get("gain");
         listSEService.gainPosition(id,gain);
-        return new ResponseEntity<>(new ResponseDTO(200,"Las posiciones se reordenaron",null),HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDTO(200,"El niño gano posiciones",null),HttpStatus.OK);
     }
     @PostMapping(path = "/loseposition")
     public ResponseEntity<ResponseDTO> loseposition(@RequestBody Map<String, Object> requestBody) throws ListSEException{
         String id =(String) requestBody.get("id");
         Integer gain = (Integer) requestBody.get("lose");
         listSEService.losePosition(id,gain);
-        return new ResponseEntity<>(new ResponseDTO(200,"Las posiciones se reordenaron",null),HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDTO(200,"El niño perdio posiciones",null),HttpStatus.OK);
     }
 
+    @GetMapping(path = "/addbynameatend")
+    public ResponseEntity<ResponseDTO>addByNameAtEnd(String initial) throws ListSEException {
+        listSEService.addByNameAtEnd(initial);
+        return new ResponseEntity<>(new ResponseDTO(200,"Ordenar por la primera letra", null),HttpStatus.OK);
+    }
+    @GetMapping(path="/removekidbyid")
+    public ResponseEntity<ResponseDTO>removeKidById(String id) {
+        listSEService.getKids().removeKidById(id);
+        return new ResponseEntity<>(new ResponseDTO(200,"Se removio por id", null),HttpStatus.OK);
+    }
+
+    @GetMapping(path ="/reportkidbyage")
+    public ResponseEntity<ResponseDTO>reportKidByAge(int ageMinima, int ageMaxima) throws ListSEException {
+        listSEService.reportKidsByAge(ageMinima,ageMaxima);
+        return new ResponseEntity<>(new ResponseDTO(200, "Reporte de niños por edad", null),HttpStatus.OK);
+    }
+    @GetMapping(path ="/getcountkidbylocationcode")
+    public ResponseEntity<ResponseDTO>getcountkidbylocationcode(String code) throws ListSEException {
+        listSEService.getCountKidByLocationCode(code);
+        return new ResponseEntity<>(new ResponseDTO(200,"Se obtuvo la localizacion por el codigo",null),HttpStatus.OK);
+    }
+    @GetMapping(path ="/orderboystostart")
+    public ResponseEntity<ResponseDTO>orderBoysToStart() throws ListSEException {
+        listSEService.orderBoysToStart();
+        return new ResponseEntity<>(new ResponseDTO(200,"Se ordenaron los niños al inicio",null),HttpStatus.OK);
+    }
 
     @GetMapping(path = "/kidsbylocations")
     public ResponseEntity<ResponseDTO> getKidsByLocation() {

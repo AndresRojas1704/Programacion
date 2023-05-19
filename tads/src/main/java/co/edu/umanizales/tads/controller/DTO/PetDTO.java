@@ -9,5 +9,5 @@ public class PetDTO {
     private int age;
     private String identification;
     private String codeLocation;
-
+    private boolean dirty;
 }

@@ -9,6 +9,7 @@ public class Pet {
     private char gender;
     private int age;
     private String identification;
-    private Location location;
 
+    private Location location;
+    private boolean dirty;
 }

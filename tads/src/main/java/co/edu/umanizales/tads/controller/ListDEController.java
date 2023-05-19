@@ -39,9 +39,28 @@ public class ListDEController {
     @GetMapping(path = "/change_extremes")
     public ResponseEntity<ResponseDTO> changeExtremes() {
         listDEService.getPets().changeExtremes();
-        return new ResponseEntity<>(new ResponseDTO(200, "SE han intercambiado los extremos", null), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDTO(200, "Se han intercambiado los extremos", null), HttpStatus.OK);
     }
-
+    @GetMapping(path="/addtostartpet")
+    public ResponseEntity<ResponseDTO>addToStartPet(Pet pet){
+        listDEService.addToStartPet(pet);
+        return new ResponseEntity<>(new ResponseDTO(200,"Se agregaron los pets al incio",null),HttpStatus.OK);
+    }
+    @GetMapping(path="/promagespets")
+    public ResponseEntity<ResponseDTO> promAgesKids(){
+        listDEService.PromAgesPets();
+        return new ResponseEntity<>(new ResponseDTO(200, "El promedio de los niños", null),HttpStatus.OK);
+    }
+    @GetMapping(path = "/intercalatepets")
+    public ResponseEntity<ResponseDTO>IntercalatePets() throws ListDEException {
+        listDEService.getIntercalatePets();
+        return new ResponseEntity<>(new ResponseDTO(200, "Se han intercalado los pets", null),HttpStatus.OK);
+    }
+    @GetMapping(path="/promagespets")
+    public ResponseEntity<ResponseDTO> promAgesPets(){
+        listDEService.PromAgesPets();
+        return new ResponseEntity<>(new ResponseDTO(200, "El promedio de los pets", null),HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<ResponseDTO> addPet(@RequestBody PetDTO petDTO) {
         Location location = locationService.getLocationByCode(petDTO.getCodeLocation());
@@ -49,7 +68,7 @@ public class ListDEController {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
         try {
-            listDEService.getPets().addPet(new Pet(petDTO.getName(), petDTO.getGender(), petDTO.getAge(), petDTO.getIdentification(), location));
+            listDEService.getPets().addPet(new Pet(petDTO.getName(), petDTO.getGender(), petDTO.getAge(), petDTO.getIdentification(), location, petDTO.isDirty()));
 
         } catch (ListDEException e){
             return new ResponseEntity<>(new ResponseDTO(409,e.getMessage(),null),HttpStatus.OK);
@@ -57,16 +76,17 @@ public class ListDEController {
         return new ResponseEntity<>(new ResponseDTO(200,"Se ha adicionado el pet",null),HttpStatus.OK
         );
     }
-    @GetMapping(path = "/removepet/{id}")
+    @GetMapping(path = "/removepet/{age}")
     public ResponseEntity<ResponseDTO>removepetbyage(byte age) {
         listDEService.removePetByAge(age);
         return new ResponseEntity<>(new ResponseDTO(200,"pet eliminado",null),HttpStatus.OK);
     }
-    @GetMapping(path = "/removepetbyage/{age}")
-    public ResponseEntity<ResponseDTO>losePosition(@PathVariable byte age){
-        listDEService.removePetByAge(age);
-        return new ResponseEntity<>(new ResponseDTO(200, "Los pets con esa edad se eliminaron",null),HttpStatus.OK);
+    @GetMapping(path ="/getcountkidbylocationcode")
+    public ResponseEntity<ResponseDTO>getcountkidbylocationcode(String code) throws ListDEException {
+        listDEService.getCountPetByLocationCode(code);
+        return new ResponseEntity<>(new ResponseDTO(200,"Se obtuvo la localizacion por el codigo",null),HttpStatus.OK);
     }
+
     @GetMapping (path = "/orderbygender")
     public ResponseEntity<ResponseDTO> orderbygender() throws ListSEException {
         listDEService.orderByGender();
