@@ -10,7 +10,7 @@ import java.util.Random;
 public class ListDECircular {
     private NodeDE head;
     private int size;
-    private List<Pet> pets = new ArrayList<>();
+
 
 
     //Metodo para agregar en circular
@@ -25,35 +25,39 @@ public class ListDECircular {
     8. y por ultimo pasamos la cabeza al anterior
      */
     public void addPet(Pet pet) {
-        if(head !=null){
-            head = new NodeDE(pet);
-            head.setNext(head);
-            head.setPrevious(head);
-
-        }else {
-            NodeDE temp = head.getPrevious();
-            NodeDE nodeInsert = new NodeDE(pet);
-            temp.setNext(nodeInsert);
-            nodeInsert.setPrevious(temp);
-            nodeInsert.setNext(head);
-            head.setPrevious(nodeInsert);
+        if (pet == null) {
+            return;
         }
+
+        NodeDE newNode = new NodeDE(pet);
+
+        if (head == null) {
+            head = newNode;
+            head.setNext(newNode);
+            head.setPrevious(newNode);
+        } else {
+            NodeDE lastNode = head.getPrevious();
+            newNode.setNext(head);
+            newNode.setPrevious(lastNode);
+            lastNode.setNext(newNode);
+            head.setPrevious(newNode);
+        }
+
+        size++;
     }
 
-    public List <Pet> getPets() {
+    public List<Pet> getPets(){
         List<Pet> pets = new ArrayList<>();
-        NodeDE temp = head;
-        if (head != null) {
-            while (temp.getNext() != head) {
+        NodeDE temp =head;
+        if(head!=null){
+            while(temp.getNext() != head && temp.getNext() !=null) {
                 pets.add(temp.getData());
                 temp = temp.getNext();
             }
         }
+        pets.add(temp.getData());
         return pets;
     }
-
-
-
 
     //Metodo para agregar al inicio en circular
     /*
@@ -69,18 +73,18 @@ public class ListDECircular {
     10. y asi se adiciona un pet al incio de la lista
 
      */
-    public void addToStart(Pet pet){
-        if(head !=null){
-            head = new NodeDE(pet);
-            head.setNext(head);
-            head.setPrevious(head);
-        }else {
+    public void addToStart(Pet pet) {
+        if (head == null) {
+            addPet(pet);
+        }else{
+            NodeDE newNode = new NodeDE(pet);
             NodeDE temp = head.getPrevious();
-            NodeDE nodeInsert = new NodeDE(pet);
-            nodeInsert.setPrevious(temp);
-            nodeInsert.setNext(head);
-            head.setPrevious(nodeInsert);
-            head = head.getPrevious();
+            temp.setNext(newNode);
+            newNode.setPrevious(temp);
+            newNode.setNext(head);
+            head.setPrevious(newNode);
+            head=newNode;
+            size++;
         }
     }
 //Metodo para agregar al final
@@ -96,19 +100,19 @@ public class ListDECircular {
     9  y el anterior agarre a la cabeza
      */
     public void addToFinal(Pet pet) {
-        if (head != null) {
-            NodeDE newNode = new NodeDE(pet);
-            newNode.setNext(head);
-            newNode.setPrevious(head.getPrevious());
-            head.getPrevious().setNext(newNode);
-            head.setPrevious(newNode);
-            head = newNode;
+        if (head == null) {
+        addPet(pet);
         } else {
-            head = new NodeDE(pet);
-            head.setNext(head);
-            head.setPrevious(head);
-        }
+        NodeDE newNode = new NodeDE(pet);
+        NodeDE lastNode = head.getPrevious();
+        lastNode.setNext(newNode);
+        newNode.setPrevious(lastNode);
+        newNode.setNext(head);
+        head.setPrevious(newNode);
+        size++;
     }
+}
+
     //metodo para agregar x posicion circular
     /*
     para agregar en posicion necesitamos que la cabeza no sea null
@@ -131,31 +135,23 @@ public class ListDECircular {
     y el anterior de la cabeza
 
      */
-    public void addPetXPos(Pet pet, int pos) {
-        if (head != null) {
-            NodeDE newNode = new NodeDE(pet);
-            if (pos <= 1) {
-                newNode.setNext(head);
-                newNode.setPrevious(head.getPrevious());
-                head.getPrevious().setNext(newNode);
-                head.setPrevious(newNode);
-                head = newNode;
-            } else {
-                NodeDE temp = head;
-                int contador = 1;
-                while (contador < pos - 1 && temp.getNext() != head) {
-                    temp = temp.getNext();
-                    contador++;
-                }
-                newNode.setNext(temp.getNext());
-                newNode.setPrevious(temp);
-                temp.getNext().setPrevious(newNode);
-                temp.setNext(newNode);
-            }
+    public void addXPositionPet(Pet pet, int pos) {
+        if (pos == 1) {
+            addToStart(pet);
         } else {
-            head = new NodeDE(pet);
-            head.setNext(head);
-            head.setPrevious(head);
+            NodeDE temp = head;
+            int count = 1;
+
+            while (count < pos -1) {
+                temp = temp.getNext();
+                count++;
+            }
+            NodeDE newNode = new NodeDE(pet);
+            newNode.setNext(temp.getNext());
+            newNode.setPrevious(temp);
+            temp.getNext().setPrevious(newNode);
+            temp.setNext(newNode);
+            size++;
         }
     }
 

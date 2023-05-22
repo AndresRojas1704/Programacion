@@ -46,11 +46,6 @@ public class ListDEController {
         listDEService.addToStartPet(pet);
         return new ResponseEntity<>(new ResponseDTO(200,"Se agregaron los pets al incio",null),HttpStatus.OK);
     }
-    @GetMapping(path="/promagespets")
-    public ResponseEntity<ResponseDTO> promAgesKids(){
-        listDEService.PromAgesPets();
-        return new ResponseEntity<>(new ResponseDTO(200, "El promedio de los niños", null),HttpStatus.OK);
-    }
     @GetMapping(path = "/intercalatepets")
     public ResponseEntity<ResponseDTO>IntercalatePets() throws ListDEException {
         listDEService.getIntercalatePets();

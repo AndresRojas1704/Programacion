@@ -37,9 +37,49 @@ public class ListDECircularController {
         return new ResponseEntity<>(new ResponseDTO(200,"Se ha adicionado el pet",null),HttpStatus.OK
         );
     }
-    @GetMapping(path = "/addtostart")
-    public ResponseEntity<ResponseDTO>addToStart(Pet pet) {
-        listDECircularService.getPets().addToStart(pet);
-        return new ResponseEntity<>(new ResponseDTO(200,"Se ha adicionado al inicio el pet", null),HttpStatus.OK);
+    @PostMapping(path = "/addtostart")
+    public ResponseEntity<ResponseDTO> addToStart(@RequestBody PetDTO petDTO) {
+        Location location = locationService.getLocationByCode(petDTO.getCodeLocation());
+        listDECircularService.getPets().addToStart(new Pet(petDTO.getName(),petDTO.getGender(), petDTO.getAge(),petDTO.getIdentification(), location, petDTO.isDirty() ));
+        return new ResponseEntity<>(new ResponseDTO(200, "la mascota se adiciono al inicio", null),
+                HttpStatus.OK);
+    }
+
+    @PostMapping(path= "/addtofinal")
+    public ResponseEntity<ResponseDTO> addToFinal(@RequestBody PetDTO petDTO) {
+        Location location = locationService.getLocationByCode(petDTO.getCodeLocation());
+        listDECircularService.getPets().addToFinal(new  Pet(petDTO.getName(),petDTO.getGender(), petDTO.getAge(),petDTO.getIdentification(), location, petDTO.isDirty()));
+        return new ResponseEntity<>(new ResponseDTO(200, "La mascota se adiciono al final", null), HttpStatus.OK);
+    }
+    @PostMapping(path = "/addxpositionpet{pos}")
+    public ResponseEntity<ResponseDTO> addXPositionPet(@RequestBody PetDTO petDTO,@PathVariable int pos){
+        Location location = locationService.getLocationByCode(petDTO.getCodeLocation());
+        listDECircularService.getPets().addXPositionPet(new  Pet(petDTO.getName(),petDTO.getGender(), petDTO.getAge(),petDTO.getIdentification(), location, petDTO.isDirty()),pos);
+        return new ResponseEntity<>(new ResponseDTO(200, "La mascota se adiciono en posicion: " + pos, null), HttpStatus.OK);
+    }
+    @GetMapping(path = "/takeshower/{letter}")
+    public ResponseEntity<ResponseDTO> takeShower(@PathVariable char letter) {
+        int num;
+        char letterLower = Character.toLowerCase(letter);
+
+        num = listDECircularService.getPets().takeShowerPet(letter);
+
+        if (num == 0) {
+            return new ResponseEntity<>(new ResponseDTO(
+                    409, "ERROR: No hay perros para bañar o letra incorrecta", null), HttpStatus.OK);
+        }
+
+        if (num == 1) {
+            return new ResponseEntity<>(new ResponseDTO(
+                    200, "Se bañó la primera mascota de la lista", null), HttpStatus.OK);
+        } else {
+            if (letterLower == 'd') {
+                return new ResponseEntity<>(new ResponseDTO(
+                        200, "Se bañó la mascota número " + num + " dirigiendose a la derecha", null), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new ResponseDTO(
+                        200, "Se bañó la mascota número " + num + " dirigiendose a la izquierda", null), HttpStatus.OK);
+            }
+        }
     }
 }
