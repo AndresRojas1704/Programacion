@@ -11,5 +11,5 @@ public class Pet {
     private String identification;
 
     private Location location;
-    private boolean dirty;
+    private boolean wash;
 }

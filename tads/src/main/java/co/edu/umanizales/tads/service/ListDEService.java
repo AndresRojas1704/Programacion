@@ -23,16 +23,14 @@ public class ListDEService {
         pets.invert();
     }
 
-    public void addToStartPet(Pet pet) {
-        pets.addToStartPet(pet);
-    }
     public void getIntercalatePets() throws ListDEException {
         pets.getIntercalatePets();
     }
 
-    public void removePetByAge(int age) {
+    public void removePetByAge(byte age) throws ListDEException {
         pets.removePetByAge(age);
     }
+
     public void PromAgesPets() {
         pets.PromAgesPets();
     }
@@ -53,5 +51,8 @@ public class ListDEService {
     }
     public void removeKamicase(String id){
     pets.removeKamicase(id);
+    }
+    public void win(String id, int pos) {
+        pets.win(id,pos);
     }
 }

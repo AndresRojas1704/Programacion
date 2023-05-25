@@ -19,36 +19,44 @@ public class ListSEService {
     public void orderByGender() {
         kids.OrdenByGender();
     }
-    public void invert(){
+
+    public void invert() {
 
         kids.invert();
     }
-public void orderBoysToStart() throws ListSEException {
+
+    public void orderBoysToStart() throws ListSEException {
         kids.orderBoysToStart();
-}
-    public void addToStart(Kid kid){
+    }
+
+    public void addToStart(Kid kid) {
         kids.addToStart(kid);
     }
 
     public void getIntercalateKids() throws ListSEException {
         kids.getIntercalateKids();
     }
-    public void PromAgesKids(){
+
+    public void PromAgesKids() {
         kids.PromAgesKids();
     }
 
     public void getCountKidByLocationCode(String code) throws ListSEException {
         kids.getCountKidByLocationCode(code);
     }
-    public  void gainPosition(String id, int gain) throws ListSEException {
+
+    public void gainPosition(String id, int gain) throws ListSEException {
         kids.gainPosition(id, gain);
     }
+
     public void losePosition(String id, int lose) throws ListSEException {
         kids.losePosition(id, lose);
-}
+    }
+
     public void reportKidsByAge(int ageMinima, int ageMaxima) throws ListSEException {
         kids.reportKidByAge(ageMinima, ageMaxima);
     }
+
     public void addByNameAtEnd(String initial) throws ListSEException {
         kids.addByNameAtEnd(initial);
     }

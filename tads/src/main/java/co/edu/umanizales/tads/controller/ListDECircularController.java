@@ -24,7 +24,7 @@ public class ListDECircularController {
 
     @GetMapping
     public ResponseEntity<ResponseDTO> getPets() {
-        return new ResponseEntity<>(new ResponseDTO(200, listDECircularService.getPets(), null), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDTO(200, listDECircularService.getPets().getPetss(), null), HttpStatus.OK);
     }
 
     @PostMapping
@@ -57,29 +57,14 @@ public class ListDECircularController {
         listDECircularService.getPets().addXPositionPet(new  Pet(petDTO.getName(),petDTO.getGender(), petDTO.getAge(),petDTO.getIdentification(), location, petDTO.isDirty()),pos);
         return new ResponseEntity<>(new ResponseDTO(200, "La mascota se adiciono en posicion: " + pos, null), HttpStatus.OK);
     }
-    @GetMapping(path = "/takeshower/{letter}")
-    public ResponseEntity<ResponseDTO> takeShower(@PathVariable char letter) {
-        int num;
-        char letterLower = Character.toLowerCase(letter);
-
-        num = listDECircularService.getPets().takeShowerPet(letter);
-
-        if (num == 0) {
-            return new ResponseEntity<>(new ResponseDTO(
-                    409, "ERROR: No hay perros para bañar o letra incorrecta", null), HttpStatus.OK);
-        }
-
-        if (num == 1) {
-            return new ResponseEntity<>(new ResponseDTO(
-                    200, "Se bañó la primera mascota de la lista", null), HttpStatus.OK);
-        } else {
-            if (letterLower == 'd') {
-                return new ResponseEntity<>(new ResponseDTO(
-                        200, "Se bañó la mascota número " + num + " dirigiendose a la derecha", null), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(new ResponseDTO(
-                        200, "Se bañó la mascota número " + num + " dirigiendose a la izquierda", null), HttpStatus.OK);
-            }
-        }
+@GetMapping(path="/takeshowerpet")
+    public ResponseEntity<ResponseDTO> takeShowerPet() {
+    try {
+        listDECircularService.getPets().takeShowerPet();
+        return new ResponseEntity<>(new ResponseDTO(200,"se baño el pettt", null),HttpStatus.OK);
+    } catch (ListDECircularException e) {
+        return new ResponseEntity<>(new ResponseDTO(409,e.getMessage(), null),HttpStatus.CONFLICT);
     }
+
+}
 }

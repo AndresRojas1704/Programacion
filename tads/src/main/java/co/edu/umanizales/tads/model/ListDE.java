@@ -10,76 +10,93 @@ import java.util.List;
 
 @Data
 public class ListDE {
-private NodeDE head;
-private int size;
+    private NodeDE head;
+    private int size;
 
-//metodo para agregar pet
-    public void addPet(Pet pet) throws ListDEException
-    {
-        if(head!=null)
-        {
+    //metodo para agregar pet
+    public void addPet(Pet pet) throws ListDEException {
+        if (head != null) {
             NodeDE temp = head;
-            while(temp.getNext()!=null)
-            {
-                temp= temp.getNext();
+            while (temp.getNext() != null) {
+                temp = temp.getNext();
             }
             //Parado en el último
             temp.setNext(new NodeDE(pet));
             temp.getNext().setPrevious(temp);
-        }
-        else
-        {
+        } else {
             head = new NodeDE(pet);
         }
+        size++;
     }
+
     //metodo para agregar al pet al inicio
     public void addToStartPet(Pet pet) {
-        NodeDE temp = null;
-        if (head != null) {
-            head = new NodeDE(pet);
+        NodeDE newNode = new NodeDE(pet);
+        if (this.head != null) {
+            this.head.setPrevious(newNode);
+            newNode.setNext(this.head);
+        }
+        this.head = newNode;
+        size++;
+    }
 
-        } else {
-            temp = new NodeDE(pet);
-            temp.setNext(head);
-        }
-        head.setPrevious(temp);
-        head = temp;
-    }
-// metodo para agregar en posicion al pet
-    public void addPetXPos(Pet pet, int pos) {
-        if (head != null) {
-            NodeDE temp = head;
-            int contador = 0;
-            while (contador < pos-2) {
-                temp = temp.getNext();
-                contador = contador+1;
-            }
-            NodeDE newNode = new NodeDE(pet);
-            newNode.setNext(temp.getNext());
-            temp.setNext(newNode);
-        } else {
+    // metodo para agregar en posicion al pet
+    private void addPetXPos(Pet pet, int position) {
+        if (head == null) {
             head = new NodeDE(pet);
+        } else {
+            NodeDE newNode = new NodeDE(pet);
+            if (position == 1) {
+                newNode.setNext(head);
+                head.setPrevious(newNode);
+                head = newNode;
+            } else {
+                NodeDE temp = head;
+                int currentPosition = 1;
+                while (temp.getNext() != null && currentPosition < position - 1) {
+                    temp = temp.getNext();
+                    currentPosition++;
+                }
+                newNode.setNext(temp.getNext());
+                if (temp.getNext() != null) {
+                    temp.getNext().setPrevious(newNode);
+                }
+                temp.setNext(newNode);
+                newNode.setPrevious(temp);
+            }
         }
     }
+
     // metodo para remover x id
     public void removePetById(String id) {
         if (head != null) {
             NodeDE temp = head;
             if (head.getData().getIdentification().equals(id)) {
-                head = head.getNext();
-                head.setPrevious(null);
+                if (head.getNext() != null) {
+                    temp.getNext().setPrevious(null);
+                    head = head.getNext();
+                } else {
+                    head = null;
+                }
             } else {
-                while (!temp.getNext().getData().getIdentification().equals(id)) {
+                while (temp != null) {
+                    if (temp.getData().getIdentification().equals(id)) {
+                        if (temp.getNext() != null) {
+                            temp.getPrevious().setNext(temp.getNext());
+                            temp.getNext().setPrevious(temp.getPrevious());
+                        } else {
+                            temp.getPrevious().setNext(null);
+                            temp.setPrevious(null);
+                        }
+                    }
                     temp = temp.getNext();
                 }
-                temp.getNext().getNext().setPrevious(temp);
-                temp.setNext(temp.getNext().getNext());
             }
         }
         size--;
     }
 
-    public List<Pet> getPets() {
+    public List<Pet> getPetss() {
         List<Pet> pets = new ArrayList<>();
         NodeDE temp = head;
         if (head != null) {
@@ -90,6 +107,7 @@ private int size;
         }
         return pets;
     }
+
     //metodo para ordenar por genero
     public void OrdenByGender() {
         ListDE listDE1 = new ListDE();
@@ -112,7 +130,7 @@ private int size;
         NodeDE temp = head;
         if (head != null) {
             while (temp != null) {
-                if(temp.getData().getIdentification().equals(id)) {
+                if (temp.getData().getIdentification().equals(id)) {
                     return temp.getData();
                 }
                 temp = temp.getNext();
@@ -121,6 +139,7 @@ private int size;
         }
         return null;
     }
+
     // metodo para post x id
     public int getPostbyId(String id) {
         NodeDE temp = head;
@@ -134,11 +153,12 @@ private int size;
         }
         return acum;
     }
- // metodo para cambiar extremos
+
+    // metodo para cambiar extremos
     public void changeExtremes() {
         if (this.head != null && this.head.getNext() != null) {
             NodeDE temp = this.head;
-            while(temp.getNext() != null) {
+            while (temp.getNext() != null) {
                 temp = temp.getNext();
             }
             //temp esta en el ultimo
@@ -147,7 +167,8 @@ private int size;
             temp.setData(copy);
         }
     }
-// metodo para ordenar pet por genenro
+
+    // metodo para ordenar pet por genenro
     public void OrdenPetByGender() {
         ListDE listDE1 = new ListDE();
 
@@ -164,7 +185,8 @@ private int size;
         }
         this.head = listDE1.getHead();
     }
-// metodo para invertir la lista
+
+    // metodo para invertir la lista
     public void invert() {
         if (this.head != null) {
             ListDE listCp = new ListDE();
@@ -176,12 +198,13 @@ private int size;
             this.head = listCp.getHead();
             this.head.setPrevious(null);
             NodeDE current = this.head;
-            while(current.getNext() !=null){
+            while (current.getNext() != null) {
                 current.getNext().setPrevious(current);
-                current  = current.getNext();
+                current = current.getNext();
             }
         }
     }
+
     //metodo para intercalar pets
     public void getIntercalatePets() throws ListDEException {
         if (head != null) {
@@ -212,29 +235,24 @@ private int size;
             head = listCpFinal.getHead();
         }
     }
+
     // metodo para remover pet x edad
-    public void removePetByAge(int age) {
-        if (head != null) {
-            NodeDE temp = head;
-            while (temp != null) {
-                if (temp.getData().getAge() == age) {
-                    if(temp.getPrevious() == null ){
-                        head = temp.getNext();
-                        if(head !=null){
-                            head.setPrevious(null);
-                        }
-                    }else {
-                        temp.getPrevious().setNext(temp.getNext());
-                        if(temp.getNext() !=null) {
-                            temp.getNext().setPrevious(temp.getPrevious());
-                        }
-                    }
-                }
-                temp = temp.getNext();
-            }
+    public void removePetByAge(byte age) throws ListDEException {
+        if (this.head == null) {
+            throw new ListDEException("No se puede borrar de la lista");
         }
+        NodeDE temp = this.head;
+        ListDE listDECp = new ListDE();
+        while (temp != null) {
+            if (temp.getData().getAge() != age) {
+                listDECp.addToStartPet(temp.getData());
+            }
+            temp = temp.getNext();
+        }
+        this.head = listDECp.getHead();
     }
-// metodo para obtener el promedio de los pets
+
+    // metodo para obtener el promedio de los pets
     public float PromAgesPets() {
         int sumAges = 0;
         int count = 0;
@@ -249,6 +267,7 @@ private int size;
         }
         return 0;
     }
+
     // Metodo para generar un reporte que me diga cuantos niños hay de cada ciudad
     public int getCountPetByLocationCode(String code) throws ListDEException {
         if (code == null || code.isEmpty()) {
@@ -269,12 +288,91 @@ private int size;
         }
         return count;
     }
-//Metodo para adelantar posiciones
-public void gainPosition(String id, int gain) throws ListDEException {
-    NodeDE temp = head;
-    ListDE listDECp = new ListDE();
-    int sum= 0;
-    if (head != null) {
+
+    //Metodo para adelantar posiciones
+    public void gainPosition(String id, int pos) throws ListDEException {
+
+        NodeDE temp = head;
+        int posList = 1;
+        if (head != null) {
+            while (temp != null && !temp.getData().getIdentification().equals(id)) {
+                temp = temp.getNext();
+                posList++;
+            }
+            // temp estar en el que hay adelantar
+
+            if (temp == head) {
+                throw new ListDEException("la cabeza no puede avanzar posiciones");
+            } else {
+
+                int posFinal = posList - pos;
+                Pet petcop;
+                if (posFinal >= 1) {
+                    petcop = temp.getData();
+                    removePetById(id);
+                    addPetXPos(petcop, posFinal);
+                    // correguir este if
+
+                    //correguir el if de arriba
+                } else if (posFinal == 1) {
+                    Pet headCop = head.getData();
+                    petcop = temp.getData();
+                    removePetById(id);
+                    addToStartPet(petcop);
+                    addPetXPos(headCop, 2);
+                } else {
+
+                    throw new ListDEException("no puede avanzar");
+                }
+            }
+        }
+    }
+
+    public void win(String id, int pos) {
+        ListDE listCp = new ListDE();
+        NodeDE temp = this.head;
+        int cont = 1;
+        if (this.head != null) {
+            while (temp.getNext() != null) {
+                if (temp.getNext().getData().getIdentification().equals(id)) {
+                    listCp.addToStartPet(temp.getNext().getData());
+                    if (temp.getNext().getNext() != null) {
+                        temp.getNext().getNext().setPrevious(temp);
+                    }
+                    temp.setNext(temp.getNext().getNext());
+                    cont++;
+                    break;
+                }
+                temp = temp.getNext();
+                cont++;
+            }
+            int pos2 = cont - pos;
+            NodeDE temp2 = listCp.getHead();
+            if (pos2 == 1 || pos2 < 0) {
+                addToStartPet(temp2.getData());
+            } else {
+                addPetXPos(temp2.getData(), pos2);
+            }
+        }
+    }
+
+    public NodeDE getNodeAtPosition(int position) {
+        NodeDE currentNode = head;
+        int currentPosition = 1;
+        while (currentNode != null && currentPosition < position) {
+            currentNode = currentNode.getNext();
+            currentPosition++;
+        }
+        return currentNode;
+    }
+
+
+    //Metodo para perder posiciones
+    public void losePosition(String id, int lose) throws ListDEException {
+        NodeDE temp = this.head;
+        int sum = 0;
+        ListDE listDECp = new ListDE();
+        if (head != null) ;
         while (temp != null) {
             if (!temp.getData().getIdentification().equals(id)) {
                 listDECp.addPet(temp.getData());
@@ -282,40 +380,14 @@ public void gainPosition(String id, int gain) throws ListDEException {
             } else {
                 temp = temp.getNext();
             }
-        }
-        if(gain!=1) {
-            sum = gain - getPostbyId(id);
-            listDECp.addPetXPos(getPetById(id), sum);
-
-        }else {
-            listDECp.addToStartPet(getPetById(id));
-
-        }
-        this.head = listDECp.getHead();
-    }
-
-}
-
-    //Metodo para perder posiciones
-    public void losePosition(String id, int lose) throws ListDEException {
-        NodeDE temp = this.head;
-        int sum= 0;
-        ListDE listDECp = new ListDE();
-        if(head != null);
-        while(temp!= null){
-            if(!temp.getData().getIdentification().equals(id)){
-                listDECp.addPet(temp.getData());
-                temp= temp.getNext();
-            }else {
-                temp = temp.getNext();
-            }
 
         }
         sum = lose + getPostbyId(id);
-        listDECp.addPetXPos(getPetById(id),sum);
+        listDECp.addPetXPos(getPetById(id), sum);
         this.head = listDECp.getHead();
 
     }
+
     //Metodo para obtener un reporte de los pets x edad
     public void reportPetByAge(int ageMinima, int ageMaxima) throws ListDEException {
         if (head != null) {
@@ -329,6 +401,7 @@ public void gainPosition(String id, int gain) throws ListDEException {
             }
         }
     }
+
     //metodo para enviar al final de la lista a los niños que su nombre inicie con una letra dada
     public void addByNameAtEnd(String initial) throws ListDEException {
         ListDE newListDE = new ListDE();
@@ -346,7 +419,8 @@ public void gainPosition(String id, int gain) throws ListDEException {
             head = newListDE.head;
         }
     }
-//metodo para contar pets por la location code
+
+    //metodo para contar pets por la location code
     public int getCountPetsByLocationCode(String code) {
         int count = 0;
         if (this.head != null) {
@@ -360,7 +434,8 @@ public void gainPosition(String id, int gain) throws ListDEException {
         }
         return count;
     }
-//metodo para obtener la location por departamento
+
+    //metodo para obtener la location por departamento
     public int getPetsDepartmentsByLocationCode(String code) {
         int count = 0;
         if (this.head != null) {
@@ -374,7 +449,8 @@ public void gainPosition(String id, int gain) throws ListDEException {
         }
         return count;
     }
-//metodo para obtener un reporte de pets por location genero x age
+
+    //metodo para obtener un reporte de pets por location genero x age
     public void getReportPetsByLocationGendersByAge(byte age, ReportPetsLocationGenderDTO report) {
         if (head != null) {
             NodeDE temp = this.head;
@@ -409,10 +485,11 @@ public void gainPosition(String id, int gain) throws ListDEException {
             } else {
                 while (!temp.getData().getIdentification().equals(id)) {
                     temp = temp.getNext();
-                } if(temp.getNext() == null){
+                }
+                if (temp.getNext() == null) {
                     temp.getPrevious().setNext(null);
                     head = head.getNext();
-                }else {
+                } else {
                     temp.getPrevious().setNext(temp.getNext());
                     temp.getNext().setPrevious(temp.getPrevious());
                 }

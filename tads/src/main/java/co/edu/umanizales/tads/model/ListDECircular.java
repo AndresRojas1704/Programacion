@@ -1,5 +1,6 @@
 package co.edu.umanizales.tads.model;
 
+import co.edu.umanizales.tads.exception.ListDECircularException;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class ListDECircular {
         size++;
     }
 
-    public List<Pet> getPets(){
+    public List<Pet> getPetss(){
         List<Pet> pets = new ArrayList<>();
         NodeDE temp =head;
         if(head!=null){
@@ -175,49 +176,31 @@ public class ListDECircular {
     y sino retorne 0
 
      */
-    public int takeShowerPet(char letter) {
-        char start = Character.toLowerCase(letter);
-        NodeDE temp = head;
+    public int takeShowerPet() throws ListDECircularException {
+        int RandomNum = generateRamdonNum();
+        int cont = 1;
+        if (head != null) {
+            if (head.getNext() != null) {
+                NodeDE temp = head;
 
-        if (temp == null) {
-            return 0;
-        }
-
-        if (start != 'd' && start != 'i') {
-            return 0;
-        }
-
-        Random rand = new Random();
-        int num = rand.nextInt(size) + 1;
-        if (num == 1) {
-            if (temp.getData().isDirty()) {
-                temp.getData().setDirty(false);
-            } else {
-
-                return 0;
-            }
-        } else {
-            int count = 1;
-            if (start == 'd') {
-                while (count != num) {
+                while (cont < RandomNum) {
                     temp = temp.getNext();
-                    count++;
+                    cont++;
                 }
-            } else {
-                while (count != num) {
-                    temp = temp.getPrevious();
-                    count++;
+                if (temp.getData().isWash()) {
+                    throw new ListDECircularException("El pet ya ha sido bañado, el numero fue: " + RandomNum);
                 }
-            }
-
-            if (temp.getData().isDirty()) {
-                temp.getData().setDirty(false);
+                temp.getData().setWash(true);
             } else {
-
-                return 0;
+                throw new ListDECircularException("Debe haber mas de 1 pet para realizar el metodo");
             }
         }
 
+        return RandomNum;
+    }
+    public static int generateRamdonNum() {
+        Random random = new Random();
+        int num = random.nextInt(50);
         return num;
     }
 
