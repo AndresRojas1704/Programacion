@@ -328,45 +328,6 @@ public class ListDE {
         }
     }
 
-    public void win(String id, int pos) {
-        ListDE listCp = new ListDE();
-        NodeDE temp = this.head;
-        int cont = 1;
-        if (this.head != null) {
-            while (temp.getNext() != null) {
-                if (temp.getNext().getData().getIdentification().equals(id)) {
-                    listCp.addToStartPet(temp.getNext().getData());
-                    if (temp.getNext().getNext() != null) {
-                        temp.getNext().getNext().setPrevious(temp);
-                    }
-                    temp.setNext(temp.getNext().getNext());
-                    cont++;
-                    break;
-                }
-                temp = temp.getNext();
-                cont++;
-            }
-            int pos2 = cont - pos;
-            NodeDE temp2 = listCp.getHead();
-            if (pos2 == 1 || pos2 < 0) {
-                addToStartPet(temp2.getData());
-            } else {
-                addPetXPos(temp2.getData(), pos2);
-            }
-        }
-    }
-
-    public NodeDE getNodeAtPosition(int position) {
-        NodeDE currentNode = head;
-        int currentPosition = 1;
-        while (currentNode != null && currentPosition < position) {
-            currentNode = currentNode.getNext();
-            currentPosition++;
-        }
-        return currentNode;
-    }
-
-
     //Metodo para perder posiciones
     public void losePosition(String id, int lose) throws ListDEException {
         NodeDE temp = this.head;
